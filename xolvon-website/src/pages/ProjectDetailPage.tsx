@@ -26,15 +26,19 @@ const ProjectDetailPage: React.FC = () => {
       <div className="container-app pt-4 sm:pt-6 pb-4 flex items-center gap-3">
         <button
           onClick={() => navigate('/')}
-          className="flex items-center text-[var(--text-secondary)] hover:text-[var(--cyan)] transition-colors text-sm"
+          className="flex items-center gap-2 text-[var(--text-muted)] hover:text-white transition-colors group px-4 sm:px-0"
         >
-          <ArrowLeft size={18} className="mr-1.5" />
-          Back
+          <div className="p-2 bg-[var(--bg-secondary)] rounded-lg group-hover:bg-[var(--primary)]/20 transition-colors">
+            <ArrowLeft size={20} className="group-hover:text-[var(--cyan)] transition-colors" />
+          </div>
+          <span className="font-medium hidden sm:block text-sm">Kembali ke Grid</span>
         </button>
-        <span className="text-[var(--border-subtle)]">|</span>
-        <div className="flex items-center gap-2">
-          <img src="/favicon.svg" alt="Xolvon" className="w-5 h-5" />
-          <span className="text-[var(--text-muted)] text-xs">ProjectXolvon</span>
+
+        <div className="flex items-center gap-2 px-4 sm:px-0">
+          <img src="/images/logo.svg" alt="Xolvon" className="w-6 h-auto" />
+          <span className="font-bold text-[var(--text-primary)] text-sm sm:text-base hidden sm:block">
+            ProjectXolvon
+          </span>
         </div>
       </div>
 

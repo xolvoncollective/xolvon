@@ -20,12 +20,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     if (isHovered && media.length > 1) {
       const currentMedia = media[currentMediaIndex];
       
-      // If current is video, wait for it to finish (or cycle after 4s as fallback)
       if (currentMedia.type === 'video') {
         const video = videoRefs.current[currentMediaIndex];
         if (video) {
           video.play().catch(() => {});
-          // We don't set interval here, we will use the onEnded event on the video to cycle
         }
       } else {
         interval = setInterval(() => {
@@ -33,8 +31,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         }, 2000);
       }
     } else {
-      setCurrentIndex(0);
-      // Pause all videos
+      setCurrentMediaIndex(0);
       videoRefs.current.forEach(video => {
         if (video) {
           video.pause();
@@ -48,10 +45,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     };
   }, [isHovered, currentMediaIndex, media]);
 
-  const setCurrentIndex = (index: number) => {
-    setCurrentMediaIndex(index);
-  };
-
   const handleVideoEnded = () => {
     if (isHovered && media.length > 1) {
       setCurrentMediaIndex((prev) => (prev + 1) % media.length);
@@ -60,7 +53,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   return (
     <div
-      className="card-glass cursor-pointer flex flex-col h-full rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(103,232,249,0.15)] hover:border-[var(--cyan)]/30 group"
+      className="card-glass p-2 sm:p-3 cursor-pointer flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(103,232,249,0.15)] hover:-translate-y-1 group"
       onClick={() => navigate(`/project/${project.id}`)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -74,8 +67,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       }}
       aria-label={`View ${project.title}`}
     >
-      {/* Media Preview */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#050508]">
+      {/* Media Preview (SniffAway Style padded container) */}
+      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#050508] shadow-inner">
         {media.map((item, index) => {
           const isActive = index === currentMediaIndex;
           return (
@@ -104,19 +97,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           );
         })}
 
-        {/* Launch number badge */}
-        <span className="absolute top-2 left-2 z-20 bg-black/70 backdrop-blur-md text-[var(--cyan)] border border-[var(--cyan)]/20 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded shadow-lg">
-          #{project.launchNumber}
-        </span>
-
         {/* Media indicator dots */}
         {media.length > 1 && (
-          <div className="absolute bottom-2 right-2 z-20 flex gap-1 bg-black/40 px-1.5 py-1 rounded-full backdrop-blur-sm">
+          <div className="absolute bottom-2 right-2 z-20 flex gap-1 bg-black/60 px-2 py-1 rounded-full backdrop-blur-md border border-white/10">
             {media.map((_, i) => (
               <div
                 key={i}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                  i === currentMediaIndex ? 'bg-[var(--cyan)] w-3' : 'bg-white/50'
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === currentMediaIndex ? 'bg-[var(--cyan)] w-3 shadow-[0_0_5px_var(--cyan)]' : 'bg-white/50 w-1.5 hover:bg-white/80'
                 }`}
               />
             ))}
@@ -124,17 +112,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         )}
       </div>
 
-      {/* Info */}
-      <div className="p-3 sm:p-4 flex flex-col flex-grow bg-gradient-to-b from-transparent to-black/20">
-        <h3 className="text-[var(--text-primary)] font-semibold text-sm sm:text-base leading-tight mb-2 line-clamp-2 group-hover:text-[var(--cyan)] transition-colors min-h-[2.5rem]">
+      {/* Info Section */}
+      <div className="pt-4 pb-2 px-1 flex flex-col flex-grow">
+        <h3 className="text-[var(--text-primary)] font-bold text-base sm:text-lg leading-tight mb-2 group-hover:text-[var(--cyan)] transition-colors min-h-[2.5rem]">
           {project.title}
         </h3>
-        <p className="text-[var(--text-muted)] text-[11px] sm:text-xs line-clamp-2 mb-4 flex-grow">
+        <p className="text-[var(--text-muted)] text-xs sm:text-sm line-clamp-2 mb-4 flex-grow opacity-80">
           {project.shortDescription}
         </p>
-        <div className="flex flex-wrap gap-1.5 mt-auto pt-2 border-t border-white/5">
+        <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-white/5">
           {project.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="bg-[var(--primary)]/10 text-[var(--primary-light)] border border-[var(--primary)]/20 text-[9px] sm:text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide">
+            <span key={tag} className="bg-[var(--primary)]/10 text-[var(--cyan)] border border-[var(--cyan)]/20 text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-medium tracking-wider uppercase">
               {tag}
             </span>
           ))}

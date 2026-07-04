@@ -14,9 +14,9 @@ const HomePage: React.FC = () => {
       <header className="container-app pt-6 pb-4 sm:pt-8 sm:pb-6">
         <div className="flex items-center gap-3 sm:gap-4 mb-1">
           <img
-            src="/favicon.svg"
+            src="/images/logo.svg"
             alt="Xolvon Logo"
-            className="w-8 h-8 sm:w-10 sm:h-10"
+            className="w-8 sm:w-10 h-auto"
           />
           <div>
             <h1 className="text-gradient-purple-cyan leading-tight text-lg sm:text-xl font-bold">
