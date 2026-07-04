@@ -1,0 +1,6 @@
+{
+  "name": "SniffAway",
+  "description": "SniffAway - Bye Flu! Hello Meow. Vitamin Obat Kucing Flu & Pilek.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

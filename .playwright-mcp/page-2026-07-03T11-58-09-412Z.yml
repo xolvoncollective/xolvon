@@ -1,0 +1,123 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - main [ref=e4]:
+      - generic "Primary" [ref=e5]:
+        - link "Kembali ke beranda Xolvon" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - text: XOLVON | Solve On
+        - navigation "Section links" [ref=e8]:
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: "#hero"
+          - link "Modules" [ref=e10] [cursor=pointer]:
+            - /url: "#modules"
+          - link "Story" [ref=e11] [cursor=pointer]:
+            - /url: "#story"
+          - link "Values" [ref=e12] [cursor=pointer]:
+            - /url: "#values"
+        - link "Start Now" [ref=e14] [cursor=pointer]:
+          - /url: /customer
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - generic [ref=e17]: PROJECT XOLVON • OCTOBER 2025
+          - heading "Solving Society’s Conundrums with Human-AI Field Systems" [level=1] [ref=e18]:
+            - text: Solving Society’s Conundrums
+            - text: with Human-AI Field Systems
+          - paragraph [ref=e19]: We build proof-driven programs that merge researchers, civic operators, and automation rails so complex missions launch with playbooks, telemetry, and accountability built in.
+          - list [ref=e20]:
+            - listitem [ref=e21]:
+              - img [ref=e22]
+              - generic [ref=e24]: Human-AI End-to-End Solutions
+            - listitem [ref=e25]:
+              - img [ref=e26]
+              - generic [ref=e28]: Solving society's conundrums
+            - listitem [ref=e29]:
+              - img [ref=e30]
+              - generic [ref=e32]: Built from real-world experiments
+          - generic [ref=e33]:
+            - link "Start Now" [ref=e34] [cursor=pointer]:
+              - /url: /customer
+              - generic [ref=e35]: Start Now
+              - img [ref=e36]
+            - link "See Our Capabilities" [ref=e38] [cursor=pointer]:
+              - /url: "#modules"
+              - generic [ref=e39]: See Our Capabilities
+          - generic [ref=e40]:
+            - generic [ref=e41]:
+              - generic [ref=e42]: 45+
+              - generic [ref=e43]: Field experiments shipped
+            - generic [ref=e44]:
+              - generic [ref=e45]: "120"
+              - generic [ref=e46]: Reusable playbooks in library
+            - generic [ref=e47]:
+              - generic [ref=e48]: 1.4k+
+              - generic [ref=e49]: Automation hours unlocked /mo
+        - generic [ref=e53]:
+          - generic [ref=e54]: ProjectXolvon Impact Stack
+          - strong [ref=e55]: Societal Conundrum Playbooks
+          - paragraph [ref=e56]: Human strategists, campus builders, and AI agents co-create operating systems that graduate from experiments into repeatable services.
+          - list [ref=e57]:
+            - listitem [ref=e58]:
+              - img [ref=e59]
+              - generic [ref=e61]: Experiments sourced from civic, campus, and market deployments
+            - listitem [ref=e62]:
+              - img [ref=e63]
+              - generic [ref=e65]: Automation rails keep workflows alive while humans pick interventions
+            - listitem [ref=e66]:
+              - img [ref=e67]
+              - generic [ref=e69]: Impact dashboards bind every sprint to economic & social indicators
+          - generic [ref=e70]: Refreshed weekly with evidence from living experiments
+      - generic [ref=e71]:
+        - generic [ref=e73]:
+          - heading "How Project Xolvon Works" [level=2] [ref=e74]
+          - paragraph [ref=e75]: How live attention programs stitch signal to action so founders, researchers, and civic operators move fast and prove impact.
+        - generic [ref=e77]:
+          - paragraph [ref=e78]: Project Xolvon turns real-world execution into systems that can run, learn, and scale.
+          - paragraph [ref=e79]: We start from live projects, not hypotheses. Each build is treated as an experiment that is designed to operate end-to-end, capturing decisions, workflows, and outcomes as structured assets. As systems run, they generate reusable processes, data, and operational knowledge that can be applied beyond a single use case.
+          - paragraph [ref=e80]: Automation handles repeatable execution, while humans stay responsible for direction, judgment, and adaptation to context. This balance ensures speed without losing relevance, especially in complex, high-impact environments.
+          - paragraph [ref=e81]: When a system proves effective, it is packaged into deployable workflows and products. These outputs allow founders and operators to move faster using systems that have already been tested in the field, reducing execution risk and compounding impact over time.
+          - paragraph [ref=e82]: Project Xolvon is not about shipping features. It is about shipping execution that can be repeated, transferred, and scaled.
+      - generic [ref=e83]:
+        - generic [ref=e85]:
+          - heading "Tools to surface & act on attention" [level=2] [ref=e86]
+          - paragraph [ref=e87]: Six modular capabilities that power detection, enrichment, and execution.
+        - generic [ref=e89]:
+          - article [ref=e90]:
+            - generic [ref=e92]: Attention Alert
+            - paragraph [ref=e93]: Real-time spike detection with personalized signals and insights.
+            - generic [ref=e94]: Coming soon
+          - article [ref=e95]:
+            - generic [ref=e97]: Real-Time Sentiment Analysis
+            - paragraph [ref=e98]: Continuous sentiment analysis for market-test or defense narrative.
+            - generic [ref=e99]: Coming soon
+          - article [ref=e100]:
+            - generic [ref=e102]: Cyber Defense
+            - paragraph [ref=e103]: Automated cyber-threat detection and early response.
+            - generic [ref=e104]: Coming soon
+          - article [ref=e105]:
+            - generic [ref=e107]: Xolvon Market
+            - paragraph [ref=e108]: Curated AI, Data, Attention products for student project, campaigns and research.
+            - generic [ref=e109]: Coming soon
+          - article [ref=e110]:
+            - generic [ref=e112]: Human-AI Attention-Data Insight
+            - paragraph [ref=e113]: Hybrid insights combining human strategist, AI analyst, and data validation and ML scoring.
+            - generic [ref=e114]: Service ready
+      - generic [ref=e115]:
+        - generic [ref=e117]:
+          - heading "Pillars that guide the platform" [level=2] [ref=e118]
+          - paragraph [ref=e119]: These principles keep every attention workflow accountable, resilient, and ready to transfer between teams without losing context.
+        - generic [ref=e121]:
+          - article [ref=e122]:
+            - generic [ref=e123]: I
+            - heading "Impact-Driven Automation" [level=3] [ref=e124]
+            - paragraph [ref=e125]: xolvon.ai builds solutions from real-world ProjectXolvon experiments. End-to-end automation keeps systems running without human dependency, every workflow emits reusable data, SOPs, and validated systems so we deliver scalable impact—not isolated software features.
+          - article [ref=e126]:
+            - generic [ref=e127]: H
+            - heading "Human-AI Collaboration" [level=3] [ref=e128]
+            - paragraph [ref=e129]: AI acts as a co-pilot while humans make key decisions. We target Indonesian youth with bold ideas that need execution systems; each project ships knowledge, frameworks, and scalable B2B solutions so the Human-AI approach stays relevant, high-impact, and socially valuable.
+          - article [ref=e130]:
+            - generic [ref=e131]: S
+            - heading "Scalable B2B Solutions" [level=3] [ref=e132]
+            - paragraph [ref=e133]: Outputs from every build become reusable B2B products. Indonesian founders get tested execution playbooks, AI-powered workflows, and human oversight so deployments move fast, stay contextual, and compound into long-term commercial impact.
+    - contentinfo [ref=e134]:
+      - paragraph [ref=e135]: © 2026 XOLVON. All rights reserved.
+  - alert [ref=e136]

@@ -1,0 +1,10 @@
+[    1826ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://xolvontesting.web.app/favicon.ico:0
+[    2077ms] Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at rD (https://xolvontesting.web.app/_next/static/chunks/4bd1b696-f6bedae49f0827a5.js:1:35057)
+    at https://xolvontesting.web.app/_next/static/chunks/4bd1b696-f6bedae49f0827a5.js:1:119646
+    at ix (https://xolvontesting.web.app/_next/static/chunks/4bd1b696-f6bedae49f0827a5.js:1:122950)
+    at ik (https://xolvontesting.web.app/_next/static/chunks/4bd1b696-f6bedae49f0827a5.js:1:114738)
+    at https://xolvontesting.web.app/_next/static/chunks/4bd1b696-f6bedae49f0827a5.js:1:110725
+    at iu (https://xolvontesting.web.app/_next/static/chunks/4bd1b696-f6bedae49f0827a5.js:1:110826)
+    at iX (https://xolvontesting.web.app/_next/static/chunks/4bd1b696-f6bedae49f0827a5.js:1:132929)
+    at MessagePort.w (https://xolvontesting.web.app/_next/static/chunks/1255-bbc1f050fbd59da9.js:1:113453)
