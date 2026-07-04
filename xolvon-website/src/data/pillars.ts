@@ -1,27 +1,22 @@
-/**
- * Pillars data for Xolvon Comprehensive Website
- * Three strategic pillars of the Xolvon framework
- */
-
 import type { Pillar } from '../types/pillar';
 
 export const pillars: Pillar[] = [
   {
     id: 'impact-driven-automation',
     title: 'Impact-Driven Automation',
-    description: 'We automate repetitive tasks to free human capacity for strategic thinking. Our 120+ reusable playbooks and 1.4k+ automation hours per month demonstrate how intelligent automation drives measurable business impact, reducing response times and scaling operations efficiently.',
+    description: 'We automate repetitive tasks so human capacity can be spent on strategy. Our 120+ playbooks and 1.4k+ monthly automation hours demonstrate how focused automation drives real business results and reduces response times.',
     iconName: 'Zap'
   },
   {
     id: 'human-ai-collaboration',
-    title: 'Human-AI Collaboration',
-    description: 'Our Human-AI Field Systems combine the contextual understanding of humans with the processing power of AI. This synergy enables us to analyze 2.7M+ monthly signals while maintaining human oversight, ensuring that technology amplifies rather than replaces human judgment and creativity.',
+    title: 'Human-Machine Field Systems',
+    description: 'We pair the contextual judgment of humans with the processing scale of machines. This approach enables us to analyze 2.7M+ monthly signals while maintaining human oversight, ensuring technology solves problems rather than creating them.',
     iconName: 'Users'
   },
   {
     id: 'scalable-b2b-solutions',
     title: 'Scalable B2B Solutions',
-    description: 'Built for enterprise needs, our 18 alpha-stage products provide scalable solutions across content automation, business intelligence, and cyber defense. With 420+ data assets and field-tested playbooks, we deliver B2B-ready systems that grow with your organization.',
+    description: 'Built for enterprise realities, our 18 alpha-stage products provide robust solutions across content, business intelligence, and security. With 420+ data assets, we deliver systems that scale reliably with your operations.',
     iconName: 'Rocket'
   }
 ];

@@ -6,15 +6,13 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Card: React.FC<CardProps> = ({ 
-  hoverable = false, 
   className = '', 
   children, 
+  hoverable = true,
   ...props 
 }) => {
-  const baseClasses = 'bg-white rounded-xl p-6 border border-[var(--gray-100)] shadow-sm';
-  const hoverClasses = hoverable 
-    ? 'transition-all duration-300 hover:shadow-md hover:border-[var(--purple-light)] hover:-translate-y-1' 
-    : '';
+  const baseClasses = 'glass rounded-2xl p-6 md:p-8 transition-all duration-300';
+  const hoverClasses = hoverable ? 'hover:-translate-y-1 hover:shadow-2xl hover:shadow-[var(--purple-primary)]/10 hover:border-[var(--purple-primary)]/30' : '';
 
   return (
     <div 

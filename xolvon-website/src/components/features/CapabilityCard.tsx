@@ -15,7 +15,7 @@ const CapabilityCard: React.FC<CapabilityCardProps> = ({ capability }) => {
   return (
     <Card 
       hoverable 
-      className="flex flex-col h-full focus-within:ring-2 focus-within:ring-[var(--purple-primary)] transition-all duration-300 hover:bg-purple-50/50"
+      className="flex flex-col h-full focus-within:ring-2 focus-within:ring-[var(--purple-primary)] transition-all duration-500"
       tabIndex={0}
     >
       <div 
