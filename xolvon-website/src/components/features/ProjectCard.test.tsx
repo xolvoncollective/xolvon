@@ -1,22 +1,23 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
+import type { Project } from '../../types/project';
+import { ProjectCategory, ProjectStatus } from '../../types/project';
 
-const mockProject = {
+const mockProject: Project = {
   id: 'test-project',
   title: 'Test Project',
-  client: 'Test Client',
-  category: 'Automation',
+  category: ProjectCategory.DATA_INTELLIGENCE,
   shortDescription: 'A test project',
-  fullDescription: 'A long test project description',
-  thumbnailUrl: '/test.jpg',
-  heroImageUrl: '/test-hero.jpg',
-  metrics: [{ label: 'Users', value: '100' }],
+  longDescription: 'A long test project description',
+  media: [{ url: '/test.jpg', type: 'image' }],
   features: ['Feature 1'],
-  technologies: ['React'],
-  tags: ['Tag1', 'Tag2']
+  tags: ['Tag1', 'Tag2'],
+  ctaText: 'View',
+  ctaLink: '#',
+  launchNumber: 1,
+  status: ProjectStatus.ALPHA
 };
 
 describe('ProjectCard', () => {

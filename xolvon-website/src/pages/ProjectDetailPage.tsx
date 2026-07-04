@@ -4,7 +4,7 @@ import { useProjects } from '../hooks/useProjects';
 import NotFoundPage from './NotFoundPage';
 import Section from '../components/common/Section';
 import Heading from '../components/common/Heading';
-import Image from '../components/common/Image';
+import MediaCarousel from '../components/features/MediaCarousel';
 import { ArrowLeft, ExternalLink, Calendar, Tag as TagIcon, CheckCircle2 } from 'lucide-react';
 
 const ProjectDetailPage: React.FC = () => {
@@ -77,16 +77,9 @@ const ProjectDetailPage: React.FC = () => {
           )}
         </header>
 
-        {/* Feature Image */}
+        {/* Feature Image / Media Carousel */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1440px] mb-16">
-          <div className="aspect-[21/9] rounded-2xl overflow-hidden shadow-xl bg-gray-200">
-            <Image 
-              src={project.heroImageUrl} 
-              fallbackSrc={project.thumbnailUrl}
-              alt={`Hero image for ${project.title}`}
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <MediaCarousel media={project.media} title={project.title} />
         </div>
 
         {/* Content Section */}

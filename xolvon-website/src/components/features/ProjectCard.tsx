@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Project } from '../../types/project';
 import Card from '../common/Card';
-import Image from '../common/Image';
 import Heading from '../common/Heading';
 
 interface ProjectCardProps {
@@ -11,6 +10,40 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const media = project.media || [];
+  const currentMedia = media[currentMediaIndex] || { url: '', type: 'image' };
+
+  // Handle sliding preview logic
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    
+    if (isHovered && media.length > 1) {
+      // If we hover, check if the current media is a video. If it is, play it and don't slide.
+      if (currentMedia.type === 'video' && videoRef.current) {
+        videoRef.current.play().catch(() => {});
+      } else {
+        // If it's an image, cycle through images every 1.5 seconds
+        interval = setInterval(() => {
+          setCurrentMediaIndex(prev => (prev + 1) % media.length);
+        }, 1500);
+      }
+    } else {
+      // Reset when not hovered
+      setCurrentMediaIndex(0);
+      if (videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+      }
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isHovered, media.length, currentMedia.type]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -26,19 +59,42 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       onClick={() => navigate(`/project/${project.id}`)}
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       aria-label={`View details for ${project.title}`}
     >
       <div className="relative aspect-video overflow-hidden bg-gray-100">
-        <Image 
-          src={project.thumbnailUrl} 
-          alt={`Thumbnail for ${project.title}`} 
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-        />
+        {currentMedia.type === 'video' ? (
+          <video
+            ref={videoRef}
+            src={currentMedia.url}
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover transition-transform duration-500 scale-105"
+          />
+        ) : (
+          <img 
+            src={currentMedia.url} 
+            alt={`Thumbnail for ${project.title}`} 
+            className="w-full h-full object-cover transition-transform duration-500 scale-100 group-hover:scale-105"
+          />
+        )}
         <div className="absolute top-4 left-4">
           <span className="bg-white/90 backdrop-blur px-3 py-1 text-xs font-bold rounded-full text-[var(--purple-primary)] uppercase tracking-wider shadow-sm">
             {project.category}
           </span>
         </div>
+        {media.length > 1 && (
+          <div className="absolute bottom-2 right-2 flex gap-1">
+            {media.map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-1.5 h-1.5 rounded-full transition-colors ${i === currentMediaIndex ? 'bg-white' : 'bg-white/50'}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <div className="p-6 flex-grow flex flex-col">
         <div className="flex items-center justify-between mb-3">

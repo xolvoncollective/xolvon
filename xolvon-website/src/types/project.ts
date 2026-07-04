@@ -29,6 +29,14 @@ export const ProjectStatus = {
 export type ProjectStatus = typeof ProjectStatus[keyof typeof ProjectStatus];
 
 /**
+ * Media item for a project (Image or Video)
+ */
+export interface ProjectMedia {
+  url: string;
+  type: 'image' | 'video';
+}
+
+/**
  * Main project interface representing a Xolvon project
  */
 export interface Project {
@@ -50,11 +58,8 @@ export interface Project {
   /** At least 3 key features */
   features: string[];
   
-  /** Card image URL */
-  thumbnailUrl: string;
-  
-  /** Detail page banner URL */
-  heroImageUrl: string;
+  /** Array of media files (images/videos) */
+  media: ProjectMedia[];
   
   /** CTA button text */
   ctaText: string;
