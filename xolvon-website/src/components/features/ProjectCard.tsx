@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Project } from '../../types/project';
-import Card from '../common/Card';
-import Heading from '../common/Heading';
 
 interface ProjectCardProps {
   project: Project;
@@ -15,24 +13,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const media = project.media || [];
-  const currentMedia = media[currentMediaIndex] || { url: '', type: 'image' };
+  const currentMedia = media[currentMediaIndex] || { url: '', type: 'image' as const };
 
-  // Handle sliding preview logic
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
-    
+
     if (isHovered && media.length > 1) {
-      // If we hover, check if the current media is a video. If it is, play it and don't slide.
       if (currentMedia.type === 'video' && videoRef.current) {
         videoRef.current.play().catch(() => {});
       } else {
-        // If it's an image, cycle through images every 1.5 seconds
         interval = setInterval(() => {
-          setCurrentMediaIndex(prev => (prev + 1) % media.length);
+          setCurrentMediaIndex((prev) => (prev + 1) % media.length);
         }, 1500);
       }
     } else {
-      // Reset when not hovered
       setCurrentMediaIndex(0);
       if (videoRef.current) {
         videoRef.current.pause();
@@ -45,25 +39,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     };
   }, [isHovered, media.length, currentMedia.type]);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      navigate(`/project/${project.id}`);
-    }
-  };
-
   return (
-    <Card 
-      hoverable 
-      className="cursor-pointer overflow-hidden p-0 h-full flex flex-col focus:outline-none focus:ring-2 focus:ring-[var(--purple-primary)]"
+    <div
+      className="card-glass cursor-pointer overflow-hidden flex flex-col"
       onClick={() => navigate(`/project/${project.id}`)}
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      aria-label={`View details for ${project.title}`}
+      role="article"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigate(`/project/${project.id}`);
+        }
+      }}
+      aria-label={`View ${project.title}`}
     >
-      <div className="relative aspect-video overflow-hidden bg-gray-100">
+      {/* Media Preview */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-[var(--bg-secondary)]">
         {currentMedia.type === 'video' ? (
           <video
             ref={videoRef}
@@ -71,57 +64,55 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover transition-transform duration-500 scale-105"
+            className="w-full h-full object-cover"
           />
         ) : (
-          <img 
-            src={currentMedia.url} 
-            alt={`Thumbnail for ${project.title}`} 
-            className="w-full h-full object-cover transition-transform duration-500 scale-100 group-hover:scale-105"
+          <img
+            src={currentMedia.url}
+            alt={project.title}
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500"
+            style={{ transform: isHovered ? 'scale(1.05)' : 'scale(1)' }}
           />
         )}
-        <div className="absolute top-4 left-4">
-          <span className="bg-white/90 backdrop-blur px-3 py-1 text-xs font-bold rounded-full text-[var(--purple-primary)] uppercase tracking-wider shadow-sm">
-            {project.category}
-          </span>
-        </div>
+
+        {/* Launch number badge */}
+        <span className="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-[var(--cyan)] text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded">
+          #{project.launchNumber}
+        </span>
+
+        {/* Media indicator dots */}
         {media.length > 1 && (
-          <div className="absolute bottom-2 right-2 flex gap-1">
+          <div className="absolute bottom-1.5 right-2 flex gap-1">
             {media.map((_, i) => (
-              <div 
-                key={i} 
-                className={`w-1.5 h-1.5 rounded-full transition-colors ${i === currentMediaIndex ? 'bg-white' : 'bg-white/50'}`}
+              <div
+                key={i}
+                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full transition-colors ${
+                  i === currentMediaIndex ? 'bg-white' : 'bg-white/40'
+                }`}
               />
             ))}
           </div>
         )}
       </div>
-      <div className="p-6 flex-grow flex flex-col">
-        <div className="flex items-center justify-between mb-3">
-          <Heading level={3} className="text-xl">
-            {project.title}
-          </Heading>
-          <span className="text-xs font-semibold px-2 py-1 bg-gray-100 text-gray-600 rounded">
-            #{project.launchNumber}
-          </span>
-        </div>
-        <p className="text-[var(--gray-500)] font-poppins text-sm mb-4 flex-grow line-clamp-3">
+
+      {/* Info */}
+      <div className="p-2.5 sm:p-3 flex flex-col flex-grow">
+        <h3 className="text-[var(--text-primary)] font-semibold text-xs sm:text-sm leading-tight mb-1 line-clamp-2">
+          {project.title}
+        </h3>
+        <p className="text-[var(--text-muted)] text-[10px] sm:text-xs line-clamp-2 mb-2 flex-grow">
           {project.shortDescription}
         </p>
-        <div className="flex flex-wrap gap-2 mt-auto">
-          {project.tags.slice(0, 3).map(tag => (
-            <span key={tag} className="text-xs font-medium text-[var(--blue-primary)] bg-blue-50 px-2 py-1 rounded">
+        <div className="flex flex-wrap gap-1">
+          {project.tags.slice(0, 2).map((tag) => (
+            <span key={tag} className="tag-chip text-[9px] sm:text-[10px]">
               {tag}
             </span>
           ))}
-          {project.tags.length > 3 && (
-            <span className="text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded">
-              +{project.tags.length - 3}
-            </span>
-          )}
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

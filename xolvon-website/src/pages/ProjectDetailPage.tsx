@@ -2,16 +2,14 @@ import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProjects } from '../hooks/useProjects';
 import NotFoundPage from './NotFoundPage';
-import Section from '../components/common/Section';
-import Heading from '../components/common/Heading';
 import MediaCarousel from '../components/features/MediaCarousel';
-import { ArrowLeft, ExternalLink, Calendar, Tag as TagIcon, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ExternalLink, CheckCircle2 } from 'lucide-react';
 
 const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { getProjectById } = useProjects();
   const navigate = useNavigate();
-  
+
   const project = projectId ? getProjectById(projectId) : undefined;
 
   useEffect(() => {
@@ -23,101 +21,100 @@ const ProjectDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen pb-20 pt-24 bg-[var(--gray-50)]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1440px] mb-8">
-        <button 
+    <div className="min-h-screen pb-16">
+      {/* Back button + logo */}
+      <div className="container-app pt-4 sm:pt-6 pb-4 flex items-center gap-3">
+        <button
           onClick={() => navigate('/')}
-          className="flex items-center text-[var(--gray-500)] hover:text-[var(--purple-primary)] transition-colors font-poppins font-medium focus:outline-none focus:ring-2 focus:ring-[var(--purple-primary)] rounded px-2 py-1 -ml-2"
+          className="flex items-center text-[var(--text-secondary)] hover:text-[var(--cyan)] transition-colors text-sm"
         >
-          <ArrowLeft size={20} className="mr-2" />
-          Back to Projects
+          <ArrowLeft size={18} className="mr-1.5" />
+          Back
         </button>
+        <span className="text-[var(--border-subtle)]">|</span>
+        <div className="flex items-center gap-2">
+          <img src="/favicon.svg" alt="Xolvon" className="w-5 h-5" />
+          <span className="text-[var(--text-muted)] text-xs">ProjectXolvon</span>
+        </div>
       </div>
 
       <article>
-        {/* Hero Section */}
-        <header className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1440px] mb-12">
-          <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 bg-[var(--purple-primary)] text-white text-sm font-bold uppercase tracking-wider rounded-full">
-                {project.category}
-              </span>
-              <span className={`px-3 py-1 text-sm font-bold uppercase tracking-wider rounded-full ${
-                project.status === 'Launched' ? 'bg-green-100 text-green-700' : 
-                project.status === 'Alpha' ? 'bg-blue-100 text-blue-700' : 
-                'bg-yellow-100 text-yellow-700'
-              }`}>
-                {project.status}
-              </span>
-            </div>
-            <div className="flex items-center text-[var(--gray-500)] font-poppins font-medium">
-              <Calendar size={18} className="mr-2" />
+        {/* Header */}
+        <header className="container-app mb-6 sm:mb-8">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className="badge-status bg-[var(--purple)]/20 text-[var(--purple-light)] border border-[var(--purple)]/30">
+              {project.category}
+            </span>
+            <span className={`badge-status ${
+              project.status === 'Launched' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' :
+              project.status === 'Alpha' ? 'bg-[var(--cyan)]/15 text-[var(--cyan)] border border-[var(--cyan)]/30' :
+              'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+            }`}>
+              {project.status}
+            </span>
+            <span className="text-[var(--text-muted)] text-xs ml-auto">
               Launch #{project.launchNumber}
-            </div>
+            </span>
           </div>
-          
-          <Heading level={1} className="mb-6">
+
+          <h1 className="text-gradient-purple-cyan mb-3 text-xl sm:text-2xl md:text-3xl font-bold">
             {project.title}
-          </Heading>
-          
-          <p className="text-xl md:text-2xl text-[var(--gray-500)] font-poppins max-w-4xl leading-relaxed mb-8">
+          </h1>
+
+          <p className="text-[var(--text-secondary)] text-sm sm:text-base max-w-3xl leading-relaxed mb-5">
             {project.shortDescription}
           </p>
 
-          {project.ctaLink && (
-            <a 
-              href={project.ctaLink} 
-              target="_blank" 
+          {project.ctaLink && project.ctaLink !== '#' && (
+            <a
+              href={project.ctaLink}
+              target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center font-poppins font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-[var(--blue-primary)] text-white hover:bg-[var(--blue-secondary)] focus:ring-[var(--blue-primary)] text-lg px-8 py-4 shadow-md hover:shadow-lg"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--purple)] hover:bg-[var(--purple-light)] text-white font-semibold text-sm transition-colors"
             >
               {project.ctaText}
-              <ExternalLink size={20} className="ml-2" />
+              <ExternalLink size={16} />
             </a>
           )}
         </header>
 
-        {/* Feature Image / Media Carousel */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1440px] mb-16">
+        {/* Media Carousel */}
+        <div className="container-app mb-10">
           <MediaCarousel media={project.media} title={project.title} />
         </div>
 
-        {/* Content Section */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1440px]">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {/* Content */}
+        <div className="container-app">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            {/* Main Content */}
             <div className="lg:col-span-2">
-              <Section className="!py-0 !px-0 bg-transparent">
-                <Heading level={2} className="mb-6">About the Project</Heading>
-                <div className="prose prose-lg max-w-none prose-p:font-poppins prose-p:text-[var(--gray-500)] prose-p:leading-relaxed">
-                  <p className="whitespace-pre-line">{project.longDescription}</p>
-                </div>
+              <div className="card-glass p-4 sm:p-6 mb-6">
+                <h2 className="text-[var(--text-primary)] text-base sm:text-lg font-bold mb-3">About</h2>
+                <p className="text-[var(--text-secondary)] text-sm leading-relaxed whitespace-pre-line">
+                  {project.longDescription}
+                </p>
+              </div>
 
-                <div className="mt-12">
-                  <Heading level={3} className="mb-6">Key Features</Heading>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {project.features.map((feature, index) => (
-                      <div key={index} className="flex items-start bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                        <CheckCircle2 className="text-[var(--purple-primary)] mt-0.5 mr-3 flex-shrink-0" size={24} />
-                        <span className="font-poppins text-[var(--gray-800)] font-medium leading-snug">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
+              <div className="card-glass p-4 sm:p-6">
+                <h2 className="text-[var(--text-primary)] text-base sm:text-lg font-bold mb-4">Key Features</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {project.features.map((feature, index) => (
+                    <div key={index} className="flex items-start gap-2.5 p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
+                      <CheckCircle2 className="text-[var(--cyan)] mt-0.5 flex-shrink-0" size={16} />
+                      <span className="text-[var(--text-secondary)] text-xs sm:text-sm leading-snug">{feature}</span>
+                    </div>
+                  ))}
                 </div>
-              </Section>
+              </div>
             </div>
-            
+
+            {/* Sidebar */}
             <div className="lg:col-span-1">
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 sticky top-32">
-                <Heading level={3} className="mb-6 flex items-center">
-                  <TagIcon size={24} className="mr-2 text-[var(--purple-primary)]" />
-                  Technologies & Tags
-                </Heading>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map(tag => (
-                    <span 
-                      key={tag} 
-                      className="px-4 py-2 bg-purple-50 text-[var(--purple-primary)] font-poppins font-semibold text-sm rounded-lg"
-                    >
+              <div className="card-glass p-4 sm:p-6 lg:sticky lg:top-6">
+                <h3 className="text-[var(--text-primary)] text-sm font-bold mb-3">Tags</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="tag-chip text-xs">
                       {tag}
                     </span>
                   ))}

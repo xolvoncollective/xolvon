@@ -23,10 +23,10 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({ media, title }) => {
   const currentMedia = media[currentIndex];
 
   return (
-    <div className="relative group w-full aspect-[21/9] rounded-2xl overflow-hidden shadow-xl bg-gray-900 flex items-center justify-center">
+    <div className="relative group w-full aspect-video sm:aspect-[21/9] rounded-xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex items-center justify-center">
       {currentMedia.type === 'video' ? (
         <video
-          key={currentMedia.url} // Force re-mount on src change
+          key={currentMedia.url}
           src={currentMedia.url}
           controls
           autoPlay
@@ -36,40 +36,38 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({ media, title }) => {
       ) : (
         <img
           src={currentMedia.url}
-          alt={`${title} - media ${currentIndex + 1}`}
+          alt={`${title} - ${currentIndex + 1}`}
           className="w-full h-full object-cover"
         />
       )}
 
-      {/* Navigation Controls */}
       {media.length > 1 && (
         <>
           <button
             onClick={handlePrevious}
-            className="absolute left-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-[var(--purple-primary)]"
-            aria-label="Previous media"
+            className="absolute left-2 sm:left-3 p-1.5 sm:p-2 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+            aria-label="Previous"
           >
-            <ChevronLeft size={24} />
-          </button>
-          
-          <button
-            onClick={handleNext}
-            className="absolute right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-[var(--purple-primary)]"
-            aria-label="Next media"
-          >
-            <ChevronRight size={24} />
+            <ChevronLeft size={20} />
           </button>
 
-          {/* Indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+          <button
+            onClick={handleNext}
+            className="absolute right-2 sm:right-3 p-1.5 sm:p-2 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+            aria-label="Next"
+          >
+            <ChevronRight size={20} />
+          </button>
+
+          <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
             {media.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2.5 h-2.5 rounded-full transition-all ${
-                  index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentIndex ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'
                 }`}
-                aria-label={`Go to media ${index + 1}`}
+                aria-label={`Slide ${index + 1}`}
               />
             ))}
           </div>
