@@ -5,6 +5,7 @@ import ErrorBoundary from './components/layout/ErrorBoundary';
 import { ProjectDataProvider } from './contexts/ProjectDataContext';
 import WelcomePopup from './components/features/WelcomePopup';
 
+const LandingPage = lazy(() => import('./pages/LandingPage'));
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -25,7 +26,8 @@ function App() {
             <main className="relative z-10">
               <Suspense fallback={<LoadingSpinner />}>
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/projects" element={<HomePage />} />
                   <Route path="/project/:projectId" element={<ProjectDetailPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
