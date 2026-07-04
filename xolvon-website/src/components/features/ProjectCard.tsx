@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Project } from '../../types/project';
+import type { Project } from '../../types';
+import { ChevronRight } from 'lucide-react';
 
 interface ProjectCardProps {
   project: Project;
@@ -12,30 +13,37 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  const media = project.media || [];
+  // Default image if no media provided
+  const media = project.media && project.media.length > 0 
+    ? project.media 
+    : [{ type: 'image' as const, url: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }];
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
-
+    
     if (isHovered && media.length > 1) {
-      const currentMedia = media[currentMediaIndex];
+      const currentItem = media[currentMediaIndex];
       
-      if (currentMedia.type === 'video') {
-        const video = videoRefs.current[currentMediaIndex];
-        if (video) {
-          video.play().catch(() => {});
+      if (currentItem.type === 'video') {
+        const videoElement = videoRefs.current[currentMediaIndex];
+        if (videoElement) {
+          videoElement.currentTime = 0;
+          videoElement.play().catch(e => console.error("Video play failed", e));
         }
       } else {
         interval = setInterval(() => {
           setCurrentMediaIndex((prev) => (prev + 1) % media.length);
-        }, 2000);
+        }, 1500);
       }
     } else {
       setCurrentMediaIndex(0);
-      videoRefs.current.forEach(video => {
-        if (video) {
-          video.pause();
-          video.currentTime = 0;
+      media.forEach((item, index) => {
+        if (item.type === 'video') {
+          const videoElement = videoRefs.current[index];
+          if (videoElement) {
+            videoElement.pause();
+            videoElement.currentTime = 0;
+          }
         }
       });
     }
@@ -51,37 +59,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     }
   };
 
+  const setVideoRef = (el: HTMLVideoElement | null, index: number) => {
+    videoRefs.current[index] = el;
+  };
+
   return (
-    <div
-      className="card-glass p-2 sm:p-3 cursor-pointer flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(103,232,249,0.15)] hover:-translate-y-1 group"
+    <div 
+      className="bg-white rounded-[2rem] p-4 shadow-xl shadow-purple-500/5 border border-purple-100 group overflow-hidden block hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full"
       onClick={() => navigate(`/project/${project.id}`)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      role="article"
+      role="button"
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          navigate(`/project/${project.id}`);
-        }
-      }}
       aria-label={`View ${project.title}`}
     >
       {/* Media Preview (SniffAway Style padded container) */}
-      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#030305] shadow-inner flex items-center justify-center">
-        {/* Glow behind the contain image to make letterboxing less harsh */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[var(--cyan)]/10 to-[var(--primary)]/10 blur-xl"></div>
-        
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-gray-50 flex items-center justify-center">
         {media.map((item, index) => {
           const isActive = index === currentMediaIndex;
           return (
             <div 
               key={`${item.url}-${index}`}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out flex items-center justify-center p-1 ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+              className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out flex items-center justify-center p-2 ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
             >
               {item.type === 'video' ? (
                 <video
-                  ref={el => videoRefs.current[index] = el}
+                  ref={(el) => setVideoRef(el, index)}
                   src={item.url}
                   muted
                   playsInline
@@ -100,36 +103,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           );
         })}
 
-        {/* Media indicator dots */}
-        {media.length > 1 && (
-          <div className="absolute bottom-2 right-2 z-20 flex gap-1 bg-black/60 px-2 py-1 rounded-full backdrop-blur-md border border-white/10">
-            {media.map((_, i) => (
-              <div
-                key={i}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === currentMediaIndex ? 'bg-[var(--cyan)] w-3 shadow-[0_0_5px_var(--cyan)]' : 'bg-white/50 w-1.5 hover:bg-white/80'
-                }`}
-              />
-            ))}
-          </div>
-        )}
+        {/* Hover Overlay Gradient */}
+        <div className={`absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent flex items-end justify-center p-4 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+           <span className="text-white font-bold text-sm bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20 shadow-lg flex items-center gap-1">
+             View Project <ChevronRight className="w-4 h-4" />
+           </span>
+        </div>
       </div>
 
-      {/* Info Section */}
-      <div className="pt-4 pb-2 px-1 flex flex-col flex-grow">
-        <h3 className="text-[var(--text-primary)] font-bold text-base sm:text-lg leading-tight mb-2 group-hover:text-[var(--cyan)] transition-colors min-h-[2.5rem]">
-          {project.title}
-        </h3>
-        <p className="text-[var(--text-muted)] text-xs sm:text-sm line-clamp-2 mb-4 flex-grow opacity-80">
-          {project.shortDescription}
-        </p>
-        <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-white/5">
-          {project.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="bg-[var(--primary)]/10 text-[var(--cyan)] border border-[var(--cyan)]/20 text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-medium tracking-wider uppercase">
+      {/* Info Section (SniffAway Pricing Card Style) */}
+      <div className="pt-6 pb-2 px-2 flex flex-col flex-grow text-center">
+        <div className="flex flex-wrap justify-center gap-2 mb-3">
+          {project.tags.slice(0, 2).map((tag) => (
+            <span
+              key={tag}
+              className="text-xs font-bold text-purple-700 bg-purple-50 border border-purple-100 px-3 py-1 rounded-full shadow-sm"
+            >
               {tag}
             </span>
           ))}
         </div>
+        
+        <h3 className="text-xl font-black text-gray-900 mb-2 group-hover:text-purple-700 transition-colors line-clamp-2">
+          {project.title}
+        </h3>
+        
+        <p className="text-sm text-gray-500 line-clamp-2 mt-auto font-medium">
+          {project.shortDescription}
+        </p>
       </div>
     </div>
   );
