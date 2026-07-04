@@ -68,13 +68,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       aria-label={`View ${project.title}`}
     >
       {/* Media Preview (SniffAway Style padded container) */}
-      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#050508] shadow-inner">
+      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#030305] shadow-inner flex items-center justify-center">
+        {/* Glow behind the contain image to make letterboxing less harsh */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[var(--cyan)]/10 to-[var(--primary)]/10 blur-xl"></div>
+        
         {media.map((item, index) => {
           const isActive = index === currentMediaIndex;
           return (
             <div 
               key={`${item.url}-${index}`}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+              className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out flex items-center justify-center p-1 ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
             >
               {item.type === 'video' ? (
                 <video
@@ -83,14 +86,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                   muted
                   playsInline
                   onEnded={handleVideoEnded}
-                  className={`w-full h-full object-cover transition-transform duration-1000 ${isHovered && isActive ? 'scale-105' : 'scale-100'}`}
+                  className={`w-full h-full object-contain transition-transform duration-1000 ${isHovered && isActive ? 'scale-105' : 'scale-100'}`}
                 />
               ) : (
                 <img
                   src={item.url}
                   alt={`${project.title} preview ${index + 1}`}
                   loading="lazy"
-                  className={`w-full h-full object-cover transition-transform duration-1000 ${isHovered && isActive ? 'scale-105' : 'scale-100'}`}
+                  className={`w-full h-full object-contain transition-transform duration-1000 ${isHovered && isActive ? 'scale-105' : 'scale-100'}`}
                 />
               )}
             </div>

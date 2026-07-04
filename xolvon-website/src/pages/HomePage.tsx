@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useProjects } from '../hooks/useProjects';
 import ProjectCard from '../components/features/ProjectCard';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const ITEMS_PER_PAGE = 8;
 
 const HomePage: React.FC = () => {
   const { projects } = useProjects();
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Sort projects by launchNumber
   const sorted = [...projects].sort((a, b) => a.launchNumber - b.launchNumber);
+  
+  const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentProjects = sorted.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(p => p + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage(p => p - 1);
+  };
 
   return (
-    <div className="min-h-screen pb-12">
+    <div className="min-h-screen pb-12 flex flex-col">
       {/* Header - Logo + Title */}
       <header className="container-app pt-6 pb-4 sm:pt-8 sm:pb-6">
         <div className="flex items-center gap-3 sm:gap-4 mb-1">
@@ -33,12 +49,53 @@ const HomePage: React.FC = () => {
       </header>
 
       {/* Project Grid */}
-      <section className="container-app">
+      <section className="container-app flex-grow">
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {sorted.map((project) => (
+          {currentProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 mt-10">
+            <button
+              onClick={goToPrevPage}
+              disabled={currentPage === 1}
+              className="p-2 rounded-full bg-[var(--bg-secondary)] border border-white/5 hover:bg-[var(--primary)]/20 hover:text-[var(--cyan)] transition-all disabled:opacity-30 disabled:hover:bg-[var(--bg-secondary)] disabled:hover:text-white"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => {
+                const page = i + 1;
+                const isActive = page === currentPage;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
+                      isActive 
+                        ? 'bg-[var(--cyan)] text-black shadow-[0_0_15px_rgba(103,232,249,0.4)]' 
+                        : 'bg-[var(--bg-secondary)] border border-white/5 text-[var(--text-muted)] hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+              className="p-2 rounded-full bg-[var(--bg-secondary)] border border-white/5 hover:bg-[var(--primary)]/20 hover:text-[var(--cyan)] transition-all disabled:opacity-30 disabled:hover:bg-[var(--bg-secondary)] disabled:hover:text-white"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Footer */}
