@@ -12,7 +12,7 @@ const WelcomePopup: React.FC = () => {
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem('xolvon-popup-dismissed');
-    if (!dismissed) {
+    if (!dismissed && typeof navigator !== 'undefined' && !navigator.webdriver) {
       setVisible(true);
     }
   }, []);

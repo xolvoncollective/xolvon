@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useProjects } from '../hooks/useProjects';
 import NotFoundPage from './NotFoundPage';
 import MediaCarousel from '../components/features/MediaCarousel';
@@ -8,7 +8,6 @@ import { ArrowLeft, ExternalLink, CheckCircle2 } from 'lucide-react';
 const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { getProjectById } = useProjects();
-  const navigate = useNavigate();
 
   const project = projectId ? getProjectById(projectId) : undefined;
 
@@ -24,15 +23,15 @@ const ProjectDetailPage: React.FC = () => {
     <div className="min-h-screen pb-16">
       {/* Back button + logo */}
       <div className="container-app pt-4 sm:pt-6 pb-4 flex items-center gap-3">
-        <button
-          onClick={() => navigate('/')}
+        <Link
+          to="/"
           className="flex items-center gap-2 text-[var(--text-muted)] hover:text-white transition-colors group px-4 sm:px-0"
         >
           <div className="p-2 bg-[var(--bg-secondary)] rounded-lg group-hover:bg-[var(--primary)]/20 transition-colors">
             <ArrowLeft size={20} className="group-hover:text-[var(--cyan)] transition-colors" />
           </div>
-          <span className="font-medium hidden sm:block text-sm">Kembali ke Grid</span>
-        </button>
+          <span className="font-medium hidden sm:block text-sm">Back to Projects</span>
+        </Link>
 
         <div className="flex items-center gap-2 px-4 sm:px-0">
           <img src="/images/logo.svg" alt="Xolvon" className="w-6 h-auto" />

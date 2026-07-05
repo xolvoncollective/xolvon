@@ -64,12 +64,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   };
 
   return (
-    <div 
-      className="bg-white rounded-[2rem] p-4 shadow-xl shadow-purple-500/5 border border-purple-100 group overflow-hidden block hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full"
-      onClick={() => navigate(`/project/${project.id}`)}
+    <a 
+      href={`/project/${project.id}`}
+      className="bg-white rounded-[2rem] p-4 shadow-xl shadow-purple-500/5 border border-purple-100 group overflow-hidden block hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full focus-visible:outline-2 focus-visible:outline-purple-500 focus-visible:outline-offset-2"
+      onClick={(e) => {
+        e.preventDefault();
+        navigate(`/project/${project.id}`);
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      role="button"
+      role="link"
       tabIndex={0}
       aria-label={`View ${project.title}`}
     >
@@ -132,7 +136,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           {project.shortDescription}
         </p>
       </div>
-    </div>
+    </a>
   );
 };
 

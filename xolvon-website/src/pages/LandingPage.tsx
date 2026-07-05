@@ -1,13 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar';
+import NavigationBar from '../components/layout/NavigationBar';
+import MetricsDisplay from '../components/features/MetricsDisplay';
+import MarketplaceGrid from '../components/features/MarketplaceGrid';
+import Footer from '../components/layout/Footer';
 
 const LandingPage: React.FC = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-purple-200">
-      <Navbar />
+      <NavigationBar />
       
       {/* Hero Section */}
       <section id="home" className="pt-32 pb-20 px-6 max-w-5xl mx-auto text-center flex flex-col items-center justify-center min-h-[70vh]">
@@ -19,15 +19,21 @@ const LandingPage: React.FC = () => {
           67 Alpha-stage Digital Production Lab
         </h2>
         <p className="text-gray-500 max-w-2xl mx-auto mb-10 text-lg leading-relaxed">
-          Browse our Human-AI Solutions designed to solve society conundrums through data-driven and collaborative systems.
+          Build systems that actually solve problems. Browse our Human-AI Solutions designed to solve society conundrums through data-driven and collaborative systems.
         </p>
         <button 
-          onClick={() => navigate('/projects')}
+          onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
           className="bg-purple-700 hover:bg-purple-800 text-white px-8 py-3 rounded-lg font-semibold transition-all hover:shadow-lg hover:-translate-y-0.5"
         >
           Explore Projects
         </button>
       </section>
+
+      {/* Metrics Section */}
+      <MetricsDisplay />
+
+      {/* Marketplace Grid */}
+      <MarketplaceGrid />
 
       {/* Core Pillars Section */}
       <section id="pillars" className="py-24 bg-gray-50 px-6">
@@ -194,10 +200,7 @@ const LandingPage: React.FC = () => {
       </section>
       
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12 px-6 text-center text-sm">
-        <p className="mb-2">PT Xolvon Kehidupan Cerdas Abadi · Jakarta, Indonesia</p>
-        <p>@xolvon.ai · @projectxolvon · xolvonai.web.app</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
